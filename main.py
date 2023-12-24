@@ -5,12 +5,10 @@ import pymunk.pygame_util
 RES = WIDTH, HEIGHT = 900, 600
 FPS = 60
 
-SIDE_LENGTH_OF_SMALL_SQUARE = 50
-SIDE_LENGTH_OF_BIG_SQUARE = 100
-MASS_OF_SMALL_SQUARE = 1
-MASS_OF_BIG_SQUARE = 1
+SIDE_LENGTH_OF_SMALL_SQUARE, MASS_OF_SMALL_SQUARE = 50, 1
+SIDE_LENGTH_OF_BIG_SQUARE, MASS_OF_BIG_SQUARE = 100, 1
 VELOCITY_OF_SMALL_SQUARE = (0, 0)
-VELOCITY_OF_BIG_SQUARE = (-250, 0)
+VELOCITY_OF_BIG_SQUARE = (-100 * MASS_OF_BIG_SQUARE, 0)
 
 THICKNESS_OF_STATIC_SEGMENTS = 2
 
@@ -27,9 +25,9 @@ def game():
     big_square.move()
 
 
-    # handler = space.add_collision_handler(1, 2)
-    handler2 = space.add_collision_handler(1, 3)
-    # handler.begin = collide
+    handler = space.add_collision_handler(1, 2)
+    handler2 = space.add_collision_handler(3, 1)
+    handler.begin = collide
     handler2.begin = collide
 
 
@@ -94,7 +92,7 @@ class VerticalStaticSegment():
         self.shape = pm.Segment(self.body, convert_coordinates(start), convert_coordinates(end), thickness)
         self.shape.elasticity = 1
         self.shape.friction = 0
-        self.collision_type = collision_type
+        self.shape.collision_type = collision_type
 
         space.add(self.body, self.shape)
 
